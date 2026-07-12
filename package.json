@@ -1,20 +1,26 @@
 {
   "name": "gold-whatsapp-bot",
   "version": "1.0.0",
-  "description": "Al-Ghaith Gold Price WhatsApp Bot & Simulator Dashboard",
+  "description": "WhatsApp Bot for Al-Ghaith Gold Price",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "echo 'No build step required'",
+    "lint": "echo 'No linting configured'"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.6.0",
+    "axios": "^1.6.8",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.3",
     "localtunnel": "^2.0.2",
     "pg": "^8.22.0",
-    "qrcode": "^1.5.3",
-    "ws": "^8.17.0"
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.7.5"
   }
 }

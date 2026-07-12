@@ -1,0 +1,8 @@
+{
+  "name": "Al-Ghaith Gold Price Bot & Dashboard",
+  "description": "Al-Ghaith Gold Price WhatsApp Bot & Simulator Dashboard with live rates and Gemini AI chatbot support",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

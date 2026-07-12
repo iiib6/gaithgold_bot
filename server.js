@@ -12,7 +12,7 @@ const wss = new WebSocket.Server({ noServer: true });
 
 const db = require('./db');
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 const CONFIG_FILE = path.join(__dirname, 'config.json');
 const PRICE_HISTORY_FILE = path.join(__dirname, 'price_history.json');
 const CUSTOMERS_FILE = path.join(__dirname, 'customers.json');
@@ -34,6 +34,8 @@ let lastGoldFetchSource = null; // 'primary' or 'backup'
 let lastGoldFetchFailed = false;
 let lastExchangeFetchFailed = false;
 let lastExchangeFetchSource = null;
+let officialExchangeRate = 1311.4; // Live official Central Bank CBI rate
+let lastOfficialExchangeFetch = null;
 
 // Helper to read config from cache
 function readConfig() {
@@ -165,7 +167,45 @@ async function fetchGoldPriceWithFallback() {
 }
 
 async function fetchExchangeRateWithFallback() {
-  // 1. Try egcurrency.com (parallel market rate - المستخدم بالشارع)
+  // 1. Try iraqsm.com/fx (parallel market rate - سعر السوق الموازي الفعلي في العراق)
+  try {
+    const res = await fetch('https://iraqsm.com/fx', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+    if (res.ok) {
+      const html = await res.text();
+      
+      // Attempt A: Match the 100 USD input field value (e.g. value="154250") which is the standard street rate
+      const regex1 = /value="(\d{6})"[^>]*\/>\s*<\/label>\s*<\/div>\s*<div[^>]*>\s*محسوب\s*على\s*سعر/i;
+      const match1 = html.match(regex1);
+      if (match1) {
+        const rate = Number(match1[1]) / 100;
+        if (!isNaN(rate) && rate > 1400 && rate < 3000) {
+          lastExchangeFetchSource = 'primary';
+          console.log(`[Exchange Rate] iraqsm.com parallel rate (from 100 USD field): ${rate} IQD`);
+          return rate;
+        }
+      }
+
+      // Attempt B: Match the direct street rate text (e.g. محسوب على سعر 1,543 د.ع للدولار)
+      const regex2 = /محسوب\s*على\s*سعر\s*([\d,.]+)\s*د\.ع/i;
+      const match2 = html.match(regex2);
+      if (match2) {
+        const rate = Number(match2[1].replace(/,/g, ''));
+        if (!isNaN(rate) && rate > 1400 && rate < 3000) {
+          lastExchangeFetchSource = 'primary';
+          console.log(`[Exchange Rate] iraqsm.com parallel rate (from text): ${rate} IQD`);
+          return rate;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('[Exchange Rate] iraqsm.com/fx fetch failed:', e.message);
+  }
+
+  // 2. Try egcurrency.com as backup parallel rate
   try {
     const res = await fetch('https://egcurrency.com/en/currency/usd/iqd');
     if (res.ok) {
@@ -173,8 +213,8 @@ async function fetchExchangeRateWithFallback() {
       const m = html.match(/USD-to-IQD\/blackMarket[\s\S]*?>\s*([\d,.]+)/i);
       if (m) {
         const rate = Number(m[1].replace(/,/g, ''));
-        if (!isNaN(rate) && rate > 500 && rate < 3000) {
-          lastExchangeFetchSource = 'primary';
+        if (!isNaN(rate) && rate > 1400 && rate < 3000) {
+          lastExchangeFetchSource = 'backup_parallel';
           console.log(`[Exchange Rate] egcurrency parallel rate: ${rate} IQD`);
           return rate;
         }
@@ -184,33 +224,39 @@ async function fetchExchangeRateWithFallback() {
     console.warn('[Exchange Rate] egcurrency failed:', e.message);
   }
 
-  // 2. Try Google Finance as backup
+  // 3. Try Google Finance for official CBI rate
   try {
     const res = await fetch('https://www.google.com/finance/quote/USD-IQD');
     if (res.ok) {
       const html = await res.text();
-      const m = html.match(/"ltr"[^>]*?>([\d,.]+)/i);
+      const m = html.match(/data-source="USD"\s+data-target="IQD"\s+data-last-price="([\d,.]+)"/i);
       if (m) {
-        const rate = Number(m[1].replace(/,/g, ''));
+        const rate = Number(m[1]);
         if (!isNaN(rate) && rate > 500 && rate < 3000) {
-          lastExchangeFetchSource = 'backup';
-          console.log(`[Exchange Rate] Google Finance rate: ${rate} IQD`);
-          return rate;
+          officialExchangeRate = rate;
+          lastOfficialExchangeFetch = Date.now();
+          console.log(`[Exchange Rate] Live Official CBI Exchange Rate updated: ${rate} IQD`);
+          
+          // CRITICAL: We do NOT return this official rate (~1311) as the parallel rate (used for gold pricing)
+          // because gold shops in Iraq price gold strictly using the parallel rate (~1540).
+          // Overwriting parallel rate with official rate would instantly drop gold prices by ~15%!
+          // We return null here so that the system preserves the last cached or manual parallel rate.
+          return null;
         }
       }
     }
   } catch (e) {
-    console.warn('[Exchange Rate] Google Finance failed:', e.message);
+    console.warn('[Exchange Rate] Google Finance official rate fetch failed:', e.message);
   }
 
-  // 3. Fallback: Keep last successful rate (from memory cache)
+  // 4. Fallback: Keep last successful rate (from memory cache)
   if (cachedExchangeRate) {
     lastExchangeFetchSource = 'cache';
-    console.log(`[Exchange Rate] All sources failed, falling back to cached parallel rate: ${cachedExchangeRate} IQD`);
+    console.log(`[Exchange Rate] Falling back to cached parallel rate: ${cachedExchangeRate} IQD`);
     return cachedExchangeRate;
   }
 
-  console.error('[Exchange Rate] All sources failed and no cached rate available.');
+  console.error('[Exchange Rate] All parallel sources failed and no cached rate available.');
   return null;
 }
 
@@ -511,6 +557,7 @@ app.get('/api/config', (req, res) => {
   res.json({
     config,
     prices,
+    officialExchangeRate,
     whatsapp: {
       status: whatsappStatus,
       libAvailable: whatsappLibAvailable
@@ -586,6 +633,7 @@ app.get('/api/gold-price', async (req, res) => {
     res.json({
       success: true,
       livePrice: config.ouncePrice,
+      officialExchangeRate,
       config,
       prices,
       freshness: {
@@ -1351,7 +1399,7 @@ async function startup() {
   }
 
   // Start the server
-  server.listen(PORT, () => {
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`==================================================`);
     console.log(`🚀 Al-Ghaith Gold Bot Server is running on port ${PORT}`);
     console.log(`📂 Web Dashboard available at http://localhost:${PORT}`);

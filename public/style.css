@@ -1524,19 +1524,223 @@ textarea:hover {
 }
 
 /* ─── Responsive Tweaks ─── */
+/* Mobile Navigation Bar */
+.mobile-tabs-bar {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-secondary);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 6px;
+    gap: 6px;
+    margin-bottom: 4px;
+    box-shadow: var(--shadow);
+}
+
+.mobile-tab-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 4px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.72rem;
+    font-family: 'Rosemary', 'Amiri', serif;
+    font-weight: 700;
+}
+
+.mobile-tab-btn i {
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.mobile-tab-btn:hover {
+    background: rgba(212, 175, 55, 0.05);
+    color: var(--text-primary);
+}
+
+.mobile-tab-btn.active {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: #0a0a0f !important;
+    border-color: var(--gold);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+.mobile-tab-btn.active i {
+    color: #0a0a0f !important;
+}
+
+.mobile-only-btn {
+    display: none !important;
+}
+
 @media (max-width: 1100px) {
-    .app-header h1 { font-size: 1.2rem; }
-    .header-main { flex-direction: column; align-items: flex-start; }
-    .system-status { width: 100%; justify-content: center; }
+    .mobile-tabs-bar {
+        display: flex;
+    }
+    
+    .mobile-only-btn {
+        display: inline-flex !important;
+    }
+
+    #btn-toggle-chats, #btn-toggle-logs {
+        display: none !important;
+    }
+    
+    /* Header Polish */
+    .app-header h1 { font-size: 1.15rem; text-align: center; }
+    .header-main { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+    .logo-area { flex-direction: column; text-align: center; gap: 6px; }
+    .app-header .subtitle { font-size: 0.7rem; line-height: 1.4; max-width: 90%; margin: 0 auto; }
+    .system-status { width: 100%; justify-content: center; padding: 4px 10px; }
+    
+    /* Grid stacking */
+    .app-grid {
+        display: block !important;
+    }
+    
+    .panel-left, .panel-right {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    /* Tab-based hide/show controls */
+    /* Price and Settings Tab */
+    body.mview-prices .analytics-row,
+    body.mview-prices .panic-row,
+    body.mview-prices .whatsapp-wrapper,
+    body.mview-prices #chats-monitor-card,
+    body.mview-prices #chart-card,
+    body.mview-prices #crm-card,
+    body.mview-prices #logs-monitor-card {
+        display: none !important;
+    }
+    body.mview-prices .panel-right {
+        display: flex !important;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    /* Chats and Replies Tab */
+    body.mview-chats .panel-right,
+    body.mview-chats .analytics-row,
+    body.mview-chats #chart-card,
+    body.mview-chats #crm-card,
+    body.mview-chats #logs-monitor-card {
+        display: none !important;
+    }
+    body.mview-chats .panel-left {
+        display: flex !important;
+        flex-direction: column;
+        gap: 16px;
+    }
+    body.mview-chats .panic-row,
+    body.mview-chats #chats-monitor-card {
+        display: flex !important;
+    }
+    body.mview-chats .whatsapp-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px;
+    }
+    /* Show custom Q&A under Chats tab on mobile */
+    body.mview-chats .panel-right {
+        display: flex !important;
+        flex-direction: column !important;
+        border: none !important;
+        background: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    body.mview-chats .panel-right > *:not(.qna-card) {
+        display: none !important;
+    }
+    body.mview-chats .qna-card {
+        display: flex !important;
+    }
+    
+    /* Stats and Logs Tab */
+    body.mview-stats .panel-right,
+    body.mview-stats .panic-row,
+    body.mview-stats .whatsapp-wrapper,
+    body.mview-stats #chats-monitor-card {
+        display: none !important;
+    }
+    body.mview-stats .panel-left {
+        display: flex !important;
+        flex-direction: column;
+        gap: 16px;
+    }
+    body.mview-stats .analytics-row {
+        display: grid !important;
+    }
+    body.mview-stats #chart-card,
+    body.mview-stats #crm-card,
+    body.mview-stats #logs-monitor-card {
+        display: flex !important;
+    }
+    
+    /* Chat Monitor Mobile Redesign (Stacked thread/conversation layout) */
+    .chats-card .card-body {
+        height: 500px !important;
+    }
+    
+    /* When a conversation is NOT selected on mobile */
+    .chats-card:not(.has-active-conv) .chats-threads-list {
+        width: 100% !important;
+        border-left: none !important;
+        display: block !important;
+    }
+    .chats-card:not(.has-active-conv) .chats-conversation-view {
+        display: none !important;
+    }
+    
+    /* When a conversation IS selected on mobile */
+    .chats-card.has-active-conv .chats-threads-list {
+        display: none !important;
+    }
+    .chats-card.has-active-conv .chats-conversation-view {
+        width: 100% !important;
+        display: flex !important;
+    }
+    
+    .chats-conversation-header {
+        padding: 10px 14px;
+    }
+    
+    .chats-conversation-header .conv-name {
+        font-size: 0.78rem;
+    }
+    .chats-conversation-header .conv-status {
+        font-size: 0.58rem;
+    }
 }
 
 @media (max-width: 600px) {
-    .app-container { padding: 10px; }
-    .phone-frame { height: 600px; border-radius: 28px; padding: 8px; }
+    .app-container { padding: 8px; gap: 10px; }
+    .phone-frame { height: 560px; max-height: 80vh; border-radius: 28px; padding: 8px; }
     .phone-screen { border-radius: 22px; }
-    .price-value { font-size: 1.3rem; }
+    .price-value { font-size: 1.45rem; }
     .digital-business-card { height: 180px; }
-    .card-header h2 { font-size: 0.88rem; }
+    .card-header h2 { font-size: 0.85rem; }
     .prices-display-grid { gap: 8px; }
     .price-item-card { padding: 10px 12px; }
+    .analytics-row { gap: 8px; }
+    .analytics-card { padding: 10px 12px; }
+    .analytics-value { font-size: 1.05rem; }
+    .analytics-label { font-size: 0.62rem; }
+    .tab-navigation { gap: 4px; padding: 3px; }
+    .tab-btn { padding: 8px 6px; font-size: 0.72rem; gap: 4px; }
+    .tab-btn i { font-size: 0.8rem; }
 }

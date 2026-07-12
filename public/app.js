@@ -1035,6 +1035,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const chatKeys = Object.keys(activeChats);
         chatsCount.textContent = `${chatKeys.length} دردشات`;
         
+        if (selectedChatId && activeChats[selectedChatId]) {
+            chatsMonitorCard.classList.add('has-active-conv');
+        } else {
+            chatsMonitorCard.classList.remove('has-active-conv');
+        }
+        
         if (chatKeys.length === 0) {
             chatsThreadsList.innerHTML = `<div class="chats-empty-state"><i class="fa-regular fa-comment-dots"></i><p>لا توجد دردشات نشطة.</p></div>`;
             chatsConversationHeader.innerHTML = `<div style="margin: auto; text-align: center; color: var(--text-muted); font-size: 0.75rem;">اختر دردشة</div>`;
@@ -1088,8 +1094,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const initials = getInitials(chat.name);
             const isMuted = mutedChatsList[chat.phone] && new Date() < new Date(mutedChatsList[chat.phone]);
             
-            // Build conversation header with avatar & mute button
+            // Build conversation header with back button, avatar & mute button
             chatsConversationHeader.innerHTML = `
+                <button id="btn-back-to-threads" class="btn btn-secondary mobile-only-btn" style="font-size: 0.8rem; padding: 6px 10px; border-radius: 8px; margin-left: 8px; border: 1px solid rgba(212, 175, 55, 0.2); display: none;">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
                 <div class="conv-avatar">${initials}</div>
                 <div class="conv-info">
                     <span class="conv-name">${escapeHTML(chat.name)}</span>
@@ -1100,6 +1109,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span>${isMuted ? 'البوت مكتوم (تشغيل)' : 'كتم الرد الآلي'}</span>
                 </button>
             `;
+            
+            const btnBackToThreads = document.getElementById('btn-back-to-threads');
+            if (btnBackToThreads) {
+                btnBackToThreads.addEventListener('click', () => {
+                    selectedChatId = null;
+                    renderChatsMonitor();
+                });
+            }
             
             const btnToggleChatMute = document.getElementById('btn-toggle-chat-mute');
             if (btnToggleChatMute) {
@@ -1352,4 +1369,35 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Call panel toggles setup
     setupTogglePanels();
+
+    // --- Mobile Tabs Layout Switcher ---
+    function setupMobileTabs() {
+        const mobileTabBtns = document.querySelectorAll('.mobile-tab-btn');
+        let currentMView = localStorage.getItem('mobile_active_view') || 'mview-prices';
+        
+        function setMView(mview) {
+            mobileTabBtns.forEach(btn => {
+                if (btn.getAttribute('data-mview') === mview) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            document.body.classList.remove('mview-prices', 'mview-chats', 'mview-stats');
+            document.body.classList.add(mview);
+            localStorage.setItem('mobile_active_view', mview);
+        }
+        
+        mobileTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mview = btn.getAttribute('data-mview');
+                setMView(mview);
+            });
+        });
+        
+        setMView(currentMView);
+    }
+    
+    setupMobileTabs();
 });
