@@ -1439,3 +1439,5 @@ startup().catch(err => {
   console.error('Fatal server startup error:', err);
   process.exit(1);
 });
+
+// Triggering auto-deploy webhook after cancellation
