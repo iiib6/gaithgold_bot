@@ -12,7 +12,7 @@ const wss = new WebSocket.Server({ noServer: true });
 
 const db = require('./db');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const CONFIG_FILE = path.join(__dirname, 'config.json');
 const PRICE_HISTORY_FILE = path.join(__dirname, 'price_history.json');
 const CUSTOMERS_FILE = path.join(__dirname, 'customers.json');
