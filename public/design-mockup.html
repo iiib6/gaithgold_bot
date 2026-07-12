@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الغيث | النموذج التصميمي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Rosemary', 'Amiri', serif;
+            background: #0a0a0f;
+            color: #f5f0e8;
+            min-height: 100vh;
+            padding: 30px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+        }
+
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .mockup-header h1 { font-size: 2rem; font-weight: 700; color: #d4af37; font-family: 'Rosemary', 'Amiri', serif; }
+        .mockup-header p { color: #8a8078; font-size: 0.95rem; margin-top: 6px; }
+        .mockup-header .badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* Color palette showcase */
+        .palette-section {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .palette-section h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .color-swatch {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .color-swatch .swatch { height: 80px; }
+        .color-swatch .label {
+            padding: 10px;
+            background: #16161f;
+            font-size: 0.78rem;
+            text-align: center;
+            color: #8a8078;
+        }
+        .color-swatch .label strong { color: #f5f0e8; display: block; font-size: 0.72rem; }
+
+        /* Layout demo */
+        .layout-demo {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
+        }
+
+        .demo-col { display: flex; flex-direction: column; gap: 20px; }
+
+        /* Card styles */
+        .card {
+            background: #16161f;
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.06);
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, transparent 100%);
+        }
+
+        .card-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Rosemary', 'Amiri', serif;
+        }
+
+        .card-header h2 i { color: #d4af37; width: 20px; text-align: center; }
+
+        .card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+        /* Gold accent line */
+        .gold-accent {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            width: 80px;
+            margin-bottom: 4px;
+        }
+
+        /* Business card preview */
+        .biz-card {
+            display: flex;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .biz-right {
+            flex: 1.2;
+            background: linear-gradient(135deg, #d4af37 0%, #c49624 50%, #a67c00 100%);
+            padding: 18px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #0a0a0f;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .biz-right .item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .biz-right .item i { width: 14px; font-size: 0.8rem; }
+
+        .biz-center {
+            width: 24px;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .biz-center .dot {
+            width: 8px; height: 8px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+
+        .biz-left {
+            flex: 0.9;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .biz-left svg { width: 55px; height: 55px; margin-bottom: 4px; }
+        .biz-left .sub { font-size: 0.5rem; color: #d4af37; }
+        .biz-left .brand { font-size: 1.2rem; font-weight: 700; color: #d4af37; font-family: 'Rosemary', 'Amiri', serif; }
+
+        /* Price cards */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .price-item {
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            border-radius: 10px;
+            padding: 14px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-item::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 3px; height: 100%;
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 0 0 3px 3px;
+        }
+
+        .price-item.active::before { background: #d4af37; }
+        .price-item.active { border-color: rgba(212, 175, 55, 0.2); }
+
+        .price-item .label { font-size: 0.78rem; color: #8a8078; font-weight: 600; }
+        .price-item .value { font-size: 1.5rem; font-weight: 700; color: #f5f0e8; margin-top: 4px; font-family: 'Rosemary', 'Amiri', serif; }
+        .price-item .currency { font-size: 0.65rem; color: #6b6360; font-weight: 600; }
+
+        /* Input styles */
+        .input-row { display: flex; gap: 12px; }
+        .form-group { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.78rem; color: #8a8078; font-weight: 600; }
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrap .icon {
+            position: absolute; right: 12px;
+            color: #d4af37; font-size: 0.85rem;
+            pointer-events: none;
+        }
+        .input-wrap input {
+            width: 100%;
+            padding: 11px 38px 11px 14px;
+            background: #0a0a0f;
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: 8px;
+            color: #f5f0e8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: 'Rosemary', 'Amiri', sans-serif;
+        }
+        .input-wrap input:focus {
+            outline: none;
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.06);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 11px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Rosemary', 'Amiri', sans-serif;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #c49624 50%, #d4af37 100%);
+            color: #0a0a0f;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-full { width: 100%; }
+
+        .actions { display: flex; gap: 12px; }
+
+        /* WhatsApp simulator placeholder */
+        .wa-header {
+            background: #1a1a2e;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+        }
+
+        .wa-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #d4af37, #a67c00);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .wa-info { flex: 1; }
+        .wa-info h3 { font-size: 0.82rem; font-weight: 700; }
+        .wa-info span { font-size: 0.62rem; color: #8a8078; }
+
+        .wa-chat {
+            background: #111118;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a8078;
+            font-size: 0.8rem;
+            background-image:
+                radial-gradient(rgba(212,175,55,0.02) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+
+        .wa-input {
+            background: #1a1a2e;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wa-input input {
+            flex: 1;
+            padding: 9px 14px;
+            background: #0a0a0f;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 20px;
+            color: #f5f0e8;
+            font-family: 'Rosemary', 'Amiri', sans-serif;
+            font-size: 0.8rem;
+        }
+        .wa-input input:focus { outline: none; }
+
+        .wa-send {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: #d4af37;
+            border: none;
+            color: #0a0a0f;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        .wa-send:hover { transform: scale(1.1); }
+
+        /* Chart placeholder */
+        .chart-area {
+            background: #0a0a0f;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            border-radius: 8px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a8078;
+            font-size: 0.78rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-area .line {
+            position: absolute;
+            bottom: 30px;
+            left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), rgba(212,175,55,0.6), rgba(212,175,55,0.3), transparent);
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(212,175,55,0.2);
+        }
+
+        .chart-area .line::before {
+            content: '';
+            position: absolute;
+            top: -20px; left: 20%;
+            width: 2px; height: 20px;
+            background: rgba(212,175,55,0.15);
+        }
+
+        .chart-area .line::after {
+            content: '';
+            position: absolute;
+            top: -35px; left: 60%;
+            width: 2px; height: 35px;
+            background: rgba(212,175,55,0.1);
+        }
+
+        /* CRM list */
+        .crm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+        }
+
+        .crm-item:last-child { border-bottom: none; }
+
+        .crm-item .name { font-size: 0.82rem; font-weight: 600; }
+        .crm-item .meta { font-size: 0.68rem; color: #8a8078; }
+        .crm-item .count { font-size: 0.72rem; color: #d4af37; font-weight: 700; }
+
+        /* Logs */
+        .log-area {
+            background: #0a0a0f;
+            border: 1px solid rgba(212, 175, 55, 0.06);
+            border-radius: 8px;
+            padding: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.72rem;
+            font-family: monospace;
+        }
+
+        .log-line { padding: 4px 0; display: flex; gap: 8px; }
+        .log-line .t { color: #6b6360; }
+        .log-line.in { color: #10b981; }
+        .log-line.out { color: #d4af37; }
+        .log-line.sys { color: #8a8078; }
+
+        /* Tabs mockup */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            background: #0a0a0f;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab-bar .tab {
+            flex: 1;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #8a8078;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-bar .tab.active {
+            background: linear-gradient(135deg, #d4af37 0%, #c49624 100%);
+            color: #0a0a0f;
+        }
+
+        /* Live tag */
+        .live-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #10b981;
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .pulse {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Footer */
+        .mockup-footer {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.08);
+            color: #6b6360;
+            font-size: 0.78rem;
+        }
+
+        .mockup-footer .gold-text { color: #d4af37; }
+
+        @media (max-width: 900px) {
+            .layout-demo { grid-template-columns: 1fr; }
+            .input-row { flex-direction: column; }
+            body { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <h1>صياغة ومجوهرات الغيث</h1>
+        <p>النموذج التصميمي الأولي — Classic Gold & Black Luxury</p>
+        <span class="badge"><i class="fa-solid fa-palette"></i> تصميم فخم كلاسيكي</span>
+    </div>
+
+    <!-- Color Palette -->
+    <div class="palette-section">
+        <h2><i class="fa-solid fa-paint-brush"></i> لوحة الألوان</h2>
+        <div class="color-grid">
+            <div class="color-swatch">
+                <div class="swatch" style="background: #0a0a0f;"></div>
+                <div class="label"><strong>خلفية رئيسية</strong>#0a0a0f</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #16161f;"></div>
+                <div class="label"><strong>الكروت</strong>#16161f</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #d4af37;"></div>
+                <div class="label"><strong>ذهبي فاخر</strong>#d4af37</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #ffd700;"></div>
+                <div class="label"><strong>ذهبي لامع</strong>#ffd700</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #f5f0e8;"></div>
+                <div class="label"><strong>نص رئيسي</strong>#f5f0e8</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #8a8078;"></div>
+                <div class="label"><strong>نص ثانوي</strong>#8a8078</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #6b6360;"></div>
+                <div class="label"><strong>نص مساعد</strong>#6b6360</div>
+            </div>
+            <div class="color-swatch">
+                <div class="swatch" style="background: #0a0a0f; border: 2px solid rgba(212,175,55,0.15);"></div>
+                <div class="label"><strong>حدود الكروت</strong>rgba(212,175,55,0.12)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layout Demo -->
+    <div class="layout-demo">
+        <!-- Column 1 -->
+        <div class="demo-col">
+            <!-- Business Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-address-card"></i> الهوية البصرية</h2>
+                    <span style="font-size:0.65rem;color:#8a8078;font-weight:600;"><i class="fa-regular fa-gem"></i> كارت المحل</span>
+                </div>
+                <div class="card-body" style="padding:14px 20px;">
+                    <div class="gold-accent"></div>
+                    <div class="biz-card">
+                        <div class="biz-right">
+                            <div class="item"><i class="fa-brands fa-instagram"></i> @algaith_jewellwry</div>
+                            <div class="item"><i class="fa-brands fa-tiktok"></i> @algaith_jewellwry</div>
+                            <div class="item"><i class="fa-solid fa-phone"></i> 0785 8106 247</div>
+                            <div class="item" style="direction:rtl;text-align:right;margin-top:4px;font-size:0.68rem;">
+                                <i class="fa-solid fa-location-dot"></i> الفلوجة سوق البزارة
+                            </div>
+                        </div>
+                        <div class="biz-center">
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="biz-left">
+                            <svg viewBox="0 0 100 100">
+                                <path d="M35,32C26,27 21,17 25,9C29,9 33,14 34,22" stroke="#d4af37" stroke-width="3" fill="none"/>
+                                <path d="M42,29C33,21 33,9 39,5C42,9 43,16 42,22" stroke="#d4af37" stroke-width="3" fill="none"/>
+                                <path d="M65,32C74,27 79,17 75,9C71,9 67,14 66,22" stroke="#d4af37" stroke-width="3" fill="none"/>
+                                <path d="M58,29C67,21 67,9 61,5C58,9 57,16 58,22" stroke="#d4af37" stroke-width="3" fill="none"/>
+                                <path d="M50,18C41,8 48,0 50,-2C52,0 59,8 50,18" stroke="#ffd700" stroke-width="3" fill="none"/>
+                                <polygon points="50,19 72,34 50,58 28,34" stroke="#ffd700" stroke-width="3" fill="none"/>
+                                <polyline points="37,34 50,39 63,34" stroke="#ffd700" stroke-width="2" fill="none"/>
+                                <line x1="50" y1="39" x2="50" y2="58" stroke="#ffd700" stroke-width="2"/>
+                            </svg>
+                            <div class="sub">صياغة ومجوهرات</div>
+                            <div class="brand">الغيث</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-sliders"></i> الإعدادات</h2>
+                    <span class="live-tag"><span class="pulse"></span> تعديل حي</span>
+                </div>
+                <div class="card-body">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>سعر الأونصة ($)</label>
+                            <div class="input-wrap">
+                                <span class="icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                                <input type="text" value="4,105" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>سعر الصرف (د.ع/$)</label>
+                            <div class="input-wrap">
+                                <span class="icon">د.ع</span>
+                                <input type="text" value="1,534" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>هامش السوق (د.ع)</label>
+                            <div class="input-wrap">
+                                <span class="icon"><i class="fa-solid fa-plus-minus"></i></span>
+                                <input type="text" value="+3,000" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم المالك</label>
+                            <div class="input-wrap">
+                                <span class="icon"><i class="fa-solid fa-user-gear"></i></span>
+                                <input type="text" value="964770xxxxxxx" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>🔒 كلمة المرور</label>
+                            <div class="input-wrap">
+                                <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                                <input type="password" value="------" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>🧠 Gemini API</label>
+                            <div class="input-wrap">
+                                <span class="icon"><i class="fa-solid fa-brain"></i></span>
+                                <input type="password" value="••••••••" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-outline" style="flex:1;"><i class="fa-solid fa-arrows-rotate"></i> جلب السعر الحي</button>
+                        <button class="btn btn-gold" style="flex:1;"><i class="fa-solid fa-circle-check"></i> حفظ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prices -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-calculator"></i> تسعيرة الذهب</h2>
+                    <span class="live-tag"><span class="pulse"></span> محدث تلقائياً</span>
+                </div>
+                <div class="card-body">
+                    <div class="gold-accent"></div>
+                    <div class="price-grid">
+                        <div class="price-item active">
+                            <div class="label">مثقال 21</div>
+                            <div class="value">888,872</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="label">غرام 21</div>
+                            <div class="value">177,774</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="label">مثقال 24</div>
+                            <div class="value">1,015,853</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="label">غرام 24</div>
+                            <div class="value">203,171</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="label">مثقال 18</div>
+                            <div class="value">761,890</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="label">غرام 18</div>
+                            <div class="value">152,378</div>
+                            <div class="currency">دينار عراقي</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="demo-col">
+            <!-- WhatsApp Simulator -->
+            <div class="card" style="overflow: visible;">
+                <div class="card-header">
+                    <h2><i class="fa-brands fa-whatsapp"></i> واتساب</h2>
+                    <span class="live-tag" style="color:#d4af37;"><span class="pulse" style="background:#d4af37;"></span> متصل</span>
+                </div>
+                <div class="tab-bar" style="margin:12px 16px 0;">
+                    <div class="tab active"><i class="fa-brands fa-whatsapp"></i> محاكي</div>
+                    <div class="tab"><i class="fa-solid fa-qrcode"></i> ربط حقيقي</div>
+                </div>
+                <div style="padding:12px 16px 0;">
+                    <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(212,175,55,0.1);">
+                        <div class="wa-header">
+                            <div class="wa-avatar"><i class="fa-solid fa-ring" style="color:#0a0a0f;font-size:0.8rem;"></i></div>
+                            <div class="wa-info">
+                                <h3>صياغة ومجوهرات الغيث</h3>
+                                <span><i class="fa-solid fa-circle" style="color:#10b981;font-size:6px;"></i> متصل الآن</span>
+                            </div>
+                            <div style="color:#8a8078;display:flex;gap:12px;font-size:0.85rem;">
+                                <i class="fa-solid fa-video"></i>
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                        </div>
+                        <div class="wa-chat">
+                            <span><i class="fa-regular fa-comment-dots"></i> واجهة المحاكاة</span>
+                        </div>
+                        <div class="wa-input">
+                            <input type="text" placeholder="اكتب رسالة...">
+                            <button class="wa-send"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="padding-top:12px;">
+                    <div style="display:flex;gap:8px;">
+                        <select style="flex:1;padding:6px 10px;background:#0a0a0f;border:1px solid rgba(212,175,55,0.12);border-radius:6px;color:#f5f0e8;font-family:'Amiri','Rosemary',sans-serif;font-size:0.72rem;">
+                            <option>زبون</option>
+                            <option>المالك</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> سعر المثقال 21</h2>
+                    <span class="live-tag"><span class="pulse"></span> كل دقيقة</span>
+                </div>
+                <div class="card-body" style="padding:12px;">
+                    <div class="chart-area">
+                        <span style="z-index:1;"><i class="fa-regular fa-chart-line-down"></i> الرسم البياني</span>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRM -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-users"></i> الزبائن</h2>
+                    <span style="font-size:0.72rem;color:#d4af37;font-weight:700;">3 زبائن</span>
+                </div>
+                <div class="card-body" style="padding:8px 16px;">
+                    <div class="crm-item">
+                        <div><div class="name">أبو أحمد</div><div class="meta">964781xxxxxx</div></div>
+                        <div class="count">5 رسائل</div>
+                    </div>
+                    <div class="crm-item">
+                        <div><div class="name">أم علي</div><div class="meta">964783xxxxxx</div></div>
+                        <div class="count">3 رسائل</div>
+                    </div>
+                    <div class="crm-item">
+                        <div><div class="name">محمد</div><div class="meta">964780xxxxxx</div></div>
+                        <div class="count">1 رسالة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-terminal"></i> سجل العمليات</h2>
+                    <button style="background:none;border:none;color:#8a8078;cursor:pointer;"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <div class="card-body" style="padding:12px;">
+                    <div class="log-area">
+                        <div class="log-line sys"><span class="t">[10:35]</span> <span>🔄 تم تحديث سعر الأونصة</span></div>
+                        <div class="log-line in"><span class="t">[10:36]</span> <span>📥 رسالة من زبون: سعر الذهب؟</span></div>
+                        <div class="log-line out"><span class="t">[10:36]</span> <span>📤 رد تلقائي: أسعار اليوم...</span></div>
+                        <div class="log-line sys"><span class="t">[10:37]</span> <span>💾 حفظ الإعدادات</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mockup-footer">
+        <p>النموذج التصميمي لمشروع <span class="gold-text">صياغة ومجوهرات الغيث</span> &bull; Classic Gold &amp; Black Luxury</p>
+    </div>
+</body>
+</html>

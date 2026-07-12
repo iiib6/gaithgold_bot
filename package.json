@@ -1,0 +1,20 @@
+{
+  "name": "gold-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Al-Ghaith Gold Price WhatsApp Bot & Simulator Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "localtunnel": "^2.0.2",
+    "pg": "^8.22.0",
+    "qrcode": "^1.5.3",
+    "ws": "^8.17.0"
+  }
+}
